@@ -1,3 +1,4 @@
+import 'package:chat_online/home/home_page.dart';
 import 'package:flutter/material.dart';
 
 class AppWidget extends StatelessWidget {
@@ -10,3 +11,4 @@ class AppWidget extends StatelessWidget {
       home: HomePage(), //Tela principal
     );
   }
+}

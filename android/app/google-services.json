@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "900108859610",
+    "project_id": "chat-online-f2650",
+    "storage_bucket": "chat-online-f2650.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900108859610:android:5ec6ef728812c6a8a08de3",
+        "android_client_info": {
+          "package_name": "com.example.chat_online"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "900108859610-r0a1vl43lepbvfks6vsmn2qie9b5odif.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chat_online",
+            "certificate_hash": "d985db5ad532ab56b365ad18f281396b0ffa6dc8"
+          }
+        },
+        {
+          "client_id": "900108859610-rd05ard8d973kf44tu8prrdcu68bdv53.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDL0beUDDYYCPTviDSIkJlLeZ_7iQIPS9E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "900108859610-rd05ard8d973kf44tu8prrdcu68bdv53.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
