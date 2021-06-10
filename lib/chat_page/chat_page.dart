@@ -1,9 +1,12 @@
 import 'package:chat_online/chat_page/text_composer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'dart:io';
+
+import 'package:google_sign_in/google_sign_in.dart';
 
 class ChatPage extends StatefulWidget {
 
@@ -13,11 +16,64 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
 
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+
+  User _currenUser;
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      _currenUser = user;
+    });
+
+  }
+
+  Future<User> _getUser() async{
+    if(_currenUser != null) return _currenUser;
+
+
+    try{
+      final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication =
+      await googleSignInAccount.authentication;
+
+      final AuthCredential credential =  GoogleAuthProvider.credential(
+        idToken: googleSignInAuthentication.idToken,
+        accessToken: googleSignInAuthentication.accessToken
+      );
+
+      final UserCredential authResult =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+
+      final User user = authResult.user;
+
+    }catch (error){
+
+    }
+  }
+
 
 
   void _sendMessage({String text, File imgFile}) async{
 
-    Map<String, dynamic> data = {};
+    final User user = await _getUser();
+
+    if(user == null){
+      _scaffoldkey.currentState.showSnackBar(
+       SnackBar(
+           content: Text("Não foi possivel fazer o Login. Tente novamente!")
+       )
+      );
+    }
+
+    Map<String, dynamic> data = {
+      "uid": user.uid,
+      "senderName": user.displayName,
+      "semderPhotoUrl": user.photoURL
+    };
 
     if(imgFile != null){
       UploadTask task = FirebaseStorage.instance.ref().child(
@@ -40,6 +96,7 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldkey,
       appBar: AppBar(
         title: Text("Chat Online"),
         elevation: 0,
